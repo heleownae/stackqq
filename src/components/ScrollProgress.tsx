@@ -4,11 +4,13 @@ import { useEffect, useRef } from 'react';
 
 export default function ScrollProgress() {
   const barRef = useRef<HTMLDivElement>(null);
+  const animatingRef = useRef(false);
 
   useEffect(() => {
     let rafId: number;
 
     function update() {
+      if (animatingRef.current) return;
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const progress = docHeight > 0 ? scrollTop / docHeight : 0;
@@ -24,15 +26,17 @@ export default function ScrollProgress() {
 
     function onScrollToTop() {
       cancelAnimationFrame(rafId);
+      animatingRef.current = true;
       if (barRef.current) {
         barRef.current.style.transition = 'transform 0.65s ease-in-out';
         barRef.current.style.transform = 'scaleX(0)';
-        setTimeout(() => {
-          if (barRef.current) {
-            barRef.current.style.transition = 'transform 0.1s ease-out';
-          }
-        }, 650);
       }
+      setTimeout(() => {
+        animatingRef.current = false;
+        if (barRef.current) {
+          barRef.current.style.transition = 'transform 0.1s ease-out';
+        }
+      }, 650);
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
