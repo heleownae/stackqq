@@ -1,13 +1,17 @@
 import type { NextConfig } from 'next';
 
+const basePath = process.env.GITHUB_ACTIONS === 'true' ? '/stackqq' : '';
+
 const nextConfig: NextConfig = {
   output: 'export',
   images: {
     unoptimized: true,
   },
   trailingSlash: true,
-  // GitHub Actions 배포 시에만 basePath 적용 (로컬은 localhost:3000/ 그대로)
-  basePath: process.env.GITHUB_ACTIONS === 'true' ? '/stackqq' : '',
+  basePath,
+  env: {
+    NEXT_PUBLIC_BASE_PATH: basePath,
+  },
 };
 
 export default nextConfig;

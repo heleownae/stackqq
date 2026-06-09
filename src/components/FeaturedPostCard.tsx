@@ -10,6 +10,8 @@ const placeholderStyles: Record<PostMeta['category'], { bg: string; text: string
   드라마: { bg: '#3F3F46', text: '□' },
 };
 
+const bp = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
+
 export default function FeaturedPostCard({ post }: { post: PostMeta }) {
   const placeholder = placeholderStyles[post.category];
 
@@ -26,13 +28,13 @@ export default function FeaturedPostCard({ post }: { post: PostMeta }) {
             <div style={{ paddingBottom: '66.667%', position: 'relative', overflow: 'hidden' }}>
               {post.thumbnail ? (
                 <Image
-                  src={post.thumbnail}
+                  src={`${bp}${post.thumbnail}`}
                   alt={post.title}
                   fill
                   sizes="(max-width: 640px) 100vw, 50vw"
                   style={{ objectFit: 'cover' }}
                 />
-              ) : (
+            ) : (
                 <div
                   style={{
                     position: 'absolute',

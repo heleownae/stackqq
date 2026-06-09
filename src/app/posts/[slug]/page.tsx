@@ -152,7 +152,7 @@ export default async function PostPage({
         {post!.thumbnail && (
           <div style={{ marginBottom: '40px' }}>
             <Image
-              src={post!.thumbnail}
+              src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}${post!.thumbnail}`}
               alt={post!.title}
               width={1200}
               height={675}
