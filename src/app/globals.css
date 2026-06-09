@@ -1,0 +1,201 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Webfonts ── */
+@font-face {
+  font-family: 'JoseonBoldMyongjo';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunKm.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'JoseonGulim';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunGu.woff') format('woff');
+  font-display: swap;
+}
+
+/* ── Color Tokens: Light (default) ── */
+:root {
+  --color-bg: #FAFAFA;
+  --color-surface: #FFFFFF;
+  --color-text: #18181B;
+  --color-text-sub: #71717A;
+  --color-border: #E4E4E7;
+  --color-accent: #E8FF00;
+  --color-accent-text: #18181B;
+}
+
+/* ── Color Tokens: Dark ── */
+[data-theme="dark"] {
+  --color-bg: #111111;
+  --color-surface: #1C1C1C;
+  --color-text: #F4F4F5;
+  --color-text-sub: #A1A1AA;
+  --color-border: #27272A;
+  --color-accent: #E8FF00;
+  --color-accent-text: #111111;
+}
+
+/* ── Page Transition ── */
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+main {
+  animation: fade-up 0.35s ease;
+}
+
+@keyframes swipe-from-right {
+  from { opacity: 0; transform: translateX(24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes swipe-from-left {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+.swipe-left  { animation: swipe-from-right 0.3s ease; }
+.swipe-right { animation: swipe-from-left  0.3s ease; }
+
+@keyframes blur-fade {
+  from { opacity: 0; filter: blur(6px); }
+  to   { opacity: 1; filter: blur(0); }
+}
+.blur-fade { animation: blur-fade 0.3s ease; }
+
+/* ── Base Reset ── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  border-radius: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scrollbar-gutter: stable;
+}
+
+body {
+  font-family: 'JoseonGulim', sans-serif;
+  letter-spacing: -0.02em;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* ── Heading Typography ── */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'JoseonBoldMyongjo', serif;
+  letter-spacing: -0.03em;
+  font-weight: normal;
+  margin: 0;
+}
+
+/* ── Selection ── */
+::selection {
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+}
+
+::-moz-selection {
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-text-sub);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border) transparent;
+}
+
+/* ── Post Content (prose) ── */
+.prose {
+  font-family: 'JoseonGulim', sans-serif;
+  font-size: 1.0625rem;
+  line-height: 2.1;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+}
+
+.prose p {
+  margin: 0 0 1.6em;
+}
+
+.prose h1, .prose h2, .prose h3 {
+  font-family: 'JoseonGulim', sans-serif;
+  letter-spacing: -0.03em;
+  margin: 2em 0 0.8em;
+}
+
+.prose h2 {
+  font-size: 1.4rem;
+}
+
+.prose strong {
+  font-weight: bold;
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+  padding: 0 2px;
+}
+
+.prose blockquote {
+  border-left: 3px solid var(--color-accent);
+  padding-left: 1.2em;
+  margin-left: 0;
+  color: var(--color-text-sub);
+  font-style: normal;
+}
+
+.prose a {
+  color: var(--color-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.prose a:hover {
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+  text-decoration: none;
+}
+
+.prose code {
+  font-family: monospace;
+  font-size: 0.9em;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: 1px 4px;
+}
