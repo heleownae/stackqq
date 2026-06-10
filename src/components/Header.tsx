@@ -44,6 +44,9 @@ export default function Header() {
         <Link
           href="/"
           style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
             fontFamily: 'JoseonBoldMyongjo, serif',
             fontSize: '1.5rem',
             letterSpacing: '-0.03em',
@@ -51,6 +54,8 @@ export default function Header() {
             textDecoration: 'none',
           }}
         >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/stqq.png`} alt="" width={18} height={18} style={{ borderRadius: '4px' }} />
           stack.qq
         </Link>
 
