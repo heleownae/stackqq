@@ -3,7 +3,7 @@ title: "행복을 비는 사람의 불행"
 subtitle: "back number 「幸せ」를 듣고"
 category: "음악"
 tags: ["J-POP"]
-date: "2025-06-01"
+date: "2026-06-01"
 thumbnail: "/thumbnails/backnumber-shiawase.jpg"
 ---
 

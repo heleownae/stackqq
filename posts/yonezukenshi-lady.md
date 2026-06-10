@@ -3,7 +3,7 @@ title: "권태를 가볍게 걷는 법"
 subtitle: "요네즈 켄시 「LADY」를 듣고"
 category: "음악"
 tags: ["J-POP"]
-date: "2025-06-10"
+date: "2026-06-10"
 thumbnail: "/thumbnails/yonezukenshi-lady.jpg"
 ---
 
