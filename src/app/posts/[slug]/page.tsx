@@ -206,7 +206,7 @@ export default async function PostPage({
 /* ── Tag Chip ── */
 function TagChip({ tag }: { tag: string }) {
   return (
-    <a
+    <Link
       href={`/?tag=${encodeURIComponent(tag)}`}
       style={{
         display: 'inline-block',
@@ -231,7 +231,7 @@ function TagChip({ tag }: { tag: string }) {
           border-color: var(--color-accent) !important;
         }
       `}</style>
-    </a>
+    </Link>
   );
 }
 
@@ -247,7 +247,7 @@ function PostNavLink({
 }) {
   const isPrev = direction === 'prev';
   return (
-    <a
+    <Link
       href={href}
       style={{
         display: 'flex',
@@ -295,6 +295,6 @@ function PostNavLink({
           color: var(--color-accent-text) !important;
         }
       `}</style>
-    </a>
+    </Link>
   );
 }
