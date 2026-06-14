@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 interface Props {
   onSearch: (query: string) => void;
@@ -9,6 +9,7 @@ interface Props {
 
 export default function SearchBar({ onSearch, query }: Props) {
   const [focused, setFocused] = useState(false);
+  const composingRef = useRef(false);
 
   return (
     <div
@@ -50,7 +51,9 @@ export default function SearchBar({ onSearch, query }: Props) {
         type="search"
         aria-label="글 검색"
         value={query}
-        onChange={(e) => onSearch(e.target.value)}
+        onChange={(e) => { if (!composingRef.current) onSearch(e.target.value); }}
+        onCompositionStart={() => { composingRef.current = true; }}
+        onCompositionEnd={(e) => { composingRef.current = false; onSearch((e.target as HTMLInputElement).value); }}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         placeholder="검색어를 입력하세요"
