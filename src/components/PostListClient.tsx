@@ -1,11 +1,13 @@
 'use client';
 
+import Link from 'next/link';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useRef } from 'react';
 import { LayoutGrid, Music, BookOpen, Film, Tv } from 'lucide-react';
 import FeaturedPostCard from '@/components/FeaturedPostCard';
 import PostListItem from '@/components/PostListItem';
 import SearchBar from '@/components/SearchBar';
+import CategoryBadge from '@/components/CategoryBadge';
 import { PostMeta } from '@/types/post';
 
 const CAT_ICONS: Record<string, React.ReactNode> = {
@@ -102,6 +104,7 @@ export default function PostListClient({ posts }: Props) {
     const tagOk = activeTags.length === 0 || activeTags.some(t => post.tags.includes(t));
     const searchOk = !q ||
       post.title.toLowerCase().includes(q) ||
+      (post.subtitle ?? '').toLowerCase().includes(q) ||
       post.category.toLowerCase().includes(q) ||
       post.tags.some(t => t.toLowerCase().includes(q));
     return catOk && tagOk && searchOk;
@@ -207,6 +210,25 @@ export default function PostListClient({ posts }: Props) {
         >
           뭐든 일단 써 볼게요!
         </div>
+      ) : activeCategory ? (
+        /* 카테고리 선택 시: 매거진형 리스트 */
+        <>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '1px',
+              margin: '24px 24px 0',
+              background: 'var(--color-border)',
+              borderRadius: '8px',
+              overflow: 'hidden',
+            }}
+          >
+            {[featuredPost!, ...paginatedPosts].map((post) => (
+              <MagazinePostCard key={post.slug} post={post} />
+            ))}
+          </div>
+        </>
       ) : (
         <>
           {/* 최신 글 피처드 카드 */}
@@ -310,7 +332,79 @@ export default function PostListClient({ posts }: Props) {
           color: var(--color-accent-text);
           border-color: var(--color-accent);
         }
+        .magazine-card:hover {
+          border-left-color: #E8FF00;
+        }
+        .magazine-card:hover .magazine-title {
+          color: var(--color-text) !important;
+        }
       `}</style>
     </div>
+  );
+}
+
+const bp = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
+
+function MagazinePostCard({ post }: { post: PostMeta }) {
+  return (
+    <Link
+      href={`/posts/${post.slug}`}
+      className="magazine-card"
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: '16px',
+        padding: '16px',
+        backgroundColor: 'var(--color-surface)',
+        textDecoration: 'none',
+        color: 'inherit',
+        borderLeft: '4px solid transparent',
+        transition: 'border-left-color 0.15s ease',
+      }}
+    >
+      {/* 썸네일 */}
+      <div style={{ width: '80px', height: '80px', flexShrink: 0, borderRadius: '6px', overflow: 'hidden', backgroundColor: 'var(--color-border)' }}>
+        {post.thumbnail ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={`${bp}${post.thumbnail}`}
+            alt={post.title}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+        ) : (
+          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-text-sub)', fontSize: '1.5rem' }}>
+            ♪
+          </div>
+        )}
+      </div>
+
+      {/* 텍스트 */}
+      <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: '4px' }}>
+        <span
+          className="magazine-title"
+          style={{
+            fontFamily: 'JoseonBoldMyongjo, serif',
+            fontSize: '1rem',
+            letterSpacing: '-0.03em',
+            color: 'var(--color-text)',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {post.title}
+        </span>
+        {post.subtitle && (
+          <span style={{ fontFamily: 'JoseonGulim, sans-serif', fontSize: '0.8rem', letterSpacing: '-0.02em', color: 'var(--color-text-sub)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+            {post.subtitle}
+          </span>
+        )}
+      </div>
+
+      {/* 날짜 */}
+      <span style={{ fontFamily: 'JoseonGulim, sans-serif', fontSize: '0.75rem', letterSpacing: '-0.02em', color: 'var(--color-text-sub)', flexShrink: 0 }}>
+        {post.date}
+      </span>
+    </Link>
   );
 }

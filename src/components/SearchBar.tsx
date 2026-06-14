@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 interface Props {
   onSearch: (query: string) => void;
@@ -9,7 +9,12 @@ interface Props {
 
 export default function SearchBar({ onSearch, query }: Props) {
   const [focused, setFocused] = useState(false);
+  const [localValue, setLocalValue] = useState(query);
   const composingRef = useRef(false);
+
+  useEffect(() => {
+    if (!focused) setLocalValue(query);
+  }, [query, focused]);
 
   return (
     <div
@@ -50,10 +55,16 @@ export default function SearchBar({ onSearch, query }: Props) {
       <input
         type="search"
         aria-label="글 검색"
-        value={query}
-        onChange={(e) => { if (!composingRef.current) onSearch(e.target.value); }}
+        value={localValue}
+        onChange={(e) => {
+          setLocalValue(e.target.value);
+          if (!composingRef.current) onSearch(e.target.value);
+        }}
         onCompositionStart={() => { composingRef.current = true; }}
-        onCompositionEnd={(e) => { composingRef.current = false; onSearch((e.target as HTMLInputElement).value); }}
+        onCompositionEnd={(e) => {
+          composingRef.current = false;
+          onSearch((e.target as HTMLInputElement).value);
+        }}
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         placeholder="검색어를 입력하세요"
@@ -70,11 +81,11 @@ export default function SearchBar({ onSearch, query }: Props) {
         }}
       />
 
-      {query && (
+      {localValue && (
         <button
           type="button"
           aria-label="검색어 지우기"
-          onClick={() => onSearch('')}
+          onClick={() => { setLocalValue(''); onSearch(''); }}
           style={{
             padding: '0 12px',
             cursor: 'pointer',
