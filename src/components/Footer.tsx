@@ -2,21 +2,20 @@ export default function Footer() {
   return (
     <footer
       style={{
-        borderTop: '1px solid var(--color-border)',
-        padding: '24px',
-        marginTop: '48px',
+        background: 'var(--color-surface)',
+        padding: '18px',
         textAlign: 'center',
       }}
     >
       <span
         style={{
-          fontFamily: 'JoseonGulim, sans-serif',
-          fontSize: '0.8rem',
-          letterSpacing: '-0.02em',
-          color: 'var(--color-text-sub)',
+          fontFamily: 'Pretendard, sans-serif',
+          fontSize: '12px',
+          color: 'var(--color-text-hint)',
+          letterSpacing: '-0.01em',
         }}
       >
-        @stack.qq
+        stack.qq
       </span>
     </footer>
   );

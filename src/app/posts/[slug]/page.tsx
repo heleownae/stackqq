@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import Header from '@/components/Header';
 import CategoryBadge from '@/components/CategoryBadge';
 import ScrollToTop from '@/components/ScrollToTop';
 import ScrollProgress from '@/components/ScrollProgress';
@@ -50,7 +49,6 @@ export default async function PostPage({
 
   return (
     <>
-      <Header />
       <ScrollProgress />
       <ScrollToTop />
       <main
@@ -66,9 +64,9 @@ export default async function PostPage({
             href="/"
             className="back-link"
             style={{
-              fontFamily: 'JoseonGulim, sans-serif',
+              fontFamily: 'Pretendard, sans-serif',
               fontSize: '0.875rem',
-              letterSpacing: '-0.02em',
+              letterSpacing: '-0.03em',
               color: 'var(--color-text-sub)',
               textDecoration: 'none',
             }}
@@ -99,12 +97,13 @@ export default async function PostPage({
         {/* 제목 */}
         <h1
           style={{
-            fontFamily: 'JoseonBoldMyongjo, serif',
-            fontSize: 'clamp(1.8rem, 4vw, 2.8rem)',
-            letterSpacing: '-0.03em',
-            fontWeight: 'normal',
+            fontFamily: 'Pretendard, sans-serif',
+            fontSize: 'clamp(2.2rem, 5vw, 3.2rem)',
+            letterSpacing: '-0.04em',
+            fontWeight: 700,
             lineHeight: 1.3,
             margin: 0,
+            color: '#111',
           }}
         >
           {post!.title}
@@ -114,12 +113,12 @@ export default async function PostPage({
         {post!.subtitle && (
           <p
             style={{
-              fontFamily: 'JoseonGulim, sans-serif',
-              fontSize: 'clamp(1rem, 1.8vw, 1.2rem)',
-              letterSpacing: '-0.02em',
-              color: 'var(--color-text-sub)',
-              margin: '8px 0 0',
-              lineHeight: 1.5,
+              fontFamily: 'Pretendard, sans-serif',
+              fontSize: 'clamp(1.05rem, 2vw, 1.25rem)',
+              letterSpacing: '-0.03em',
+              color: '#666',
+              margin: '10px 0 0',
+              lineHeight: 1.6,
             }}
           >
             {post!.subtitle}
@@ -129,11 +128,11 @@ export default async function PostPage({
         {/* 날짜 */}
         <p
           style={{
-            padding: '10px 0 24px',
-            fontSize: '0.875rem',
-            fontFamily: 'JoseonGulim, sans-serif',
+            padding: '12px 0 28px',
+            fontSize: '0.85rem',
+            fontFamily: 'Pretendard, sans-serif',
             letterSpacing: '-0.02em',
-            color: 'var(--color-text-sub)',
+            color: 'var(--color-text-hint)',
             margin: 0,
           }}
         >
@@ -143,7 +142,7 @@ export default async function PostPage({
         {/* 구분선 */}
         <div
           style={{
-            borderTop: '1px solid var(--color-border)',
+            borderTop: '1px solid #e8e8e8',
             marginBottom: '40px',
           }}
         />
@@ -174,7 +173,7 @@ export default async function PostPage({
         <nav
           style={{
             paddingTop: '20px',
-            paddingBottom: '0',
+            paddingBottom: '40px',
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
             gap: '12px',
@@ -210,25 +209,26 @@ function TagChip({ tag }: { tag: string }) {
       href={`/?tag=${encodeURIComponent(tag)}`}
       style={{
         display: 'inline-block',
+        background: 'var(--color-input-bg)',
         border: '1px solid var(--color-border)',
-        padding: '2px 8px',
-        fontSize: '0.75rem',
-        fontFamily: 'JoseonGulim, sans-serif',
-        letterSpacing: '-0.02em',
+        borderRadius: '20px',
+        padding: '3px 10px',
+        fontSize: '12px',
+        fontFamily: 'Pretendard, sans-serif',
+        letterSpacing: '-0.01em',
         lineHeight: 1.6,
         color: 'var(--color-text-sub)',
         textDecoration: 'none',
-        transition: 'background 0.15s, color 0.15s',
-        borderRadius: '4px',
+        transition: 'background 0.12s, color 0.12s, border-color 0.12s',
       }}
       className="tag-chip"
     >
       {tag}
       <style>{`
         .tag-chip:hover {
-          background: var(--color-accent) !important;
-          color: var(--color-accent-text) !important;
-          border-color: var(--color-accent) !important;
+          background: #E8FF00 !important;
+          color: #000 !important;
+          border-color: #E8FF00 !important;
         }
       `}</style>
     </Link>
@@ -253,7 +253,7 @@ function PostNavLink({
         display: 'flex',
         flexDirection: 'column',
         gap: '4px',
-        border: '1px solid var(--color-border)',
+        border: '1px solid var(--color-border-strong)',
         padding: '16px',
         textDecoration: 'none',
         color: 'inherit',
@@ -265,18 +265,19 @@ function PostNavLink({
     >
       <span
         style={{
-          fontFamily: 'JoseonGulim, sans-serif',
-          fontSize: '0.75rem',
+          fontFamily: 'Pretendard, sans-serif',
+          fontSize: '0.78rem',
           letterSpacing: '-0.02em',
-          color: 'var(--color-text-sub)',
+          color: 'var(--color-text-hint)',
         }}
       >
         {isPrev ? '← 이전 글' : '다음 글 →'}
       </span>
       <span
         style={{
-          fontFamily: 'JoseonBoldMyongjo, serif',
-          fontSize: '0.9375rem',
+          fontFamily: 'Pretendard, sans-serif',
+          fontSize: '0.9rem',
+          fontWeight: 500,
           letterSpacing: '-0.03em',
           display: '-webkit-box',
           WebkitLineClamp: 1,
@@ -289,10 +290,8 @@ function PostNavLink({
       </span>
       <style>{`
         .post-nav-link:hover {
-          background: var(--color-accent) !important;
-        }
-        .post-nav-link:hover span {
-          color: var(--color-accent-text) !important;
+          background: #fffff0 !important;
+          border-color: #E8FF00 !important;
         }
       `}</style>
     </Link>

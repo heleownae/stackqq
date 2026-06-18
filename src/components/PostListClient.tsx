@@ -3,20 +3,10 @@
 import Link from 'next/link';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useRef } from 'react';
-import { LayoutGrid, Music, BookOpen, Film, Tv } from 'lucide-react';
 import FeaturedPostCard from '@/components/FeaturedPostCard';
 import PostListItem from '@/components/PostListItem';
-import SearchBar from '@/components/SearchBar';
 import CategoryBadge from '@/components/CategoryBadge';
 import { PostMeta } from '@/types/post';
-
-const CAT_ICONS: Record<string, React.ReactNode> = {
-  전체: <LayoutGrid size={19} strokeWidth={1.75} />,
-  음악: <Music size={19} strokeWidth={1.75} />,
-  도서: <BookOpen size={19} strokeWidth={1.75} />,
-  영화: <Film size={19} strokeWidth={1.75} />,
-  드라마: <Tv size={19} strokeWidth={1.75} />,
-};
 
 const CATEGORIES: PostMeta['category'][] = ['음악', '도서', '영화', '드라마'];
 const ALL_CATS = [null, ...CATEGORIES] as (PostMeta['category'] | null)[];
@@ -69,25 +59,11 @@ export default function PostListClient({ posts }: Props) {
     router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false });
   }
 
-  function handleCategoryClick(cat: PostMeta['category'] | null) {
-    const nextCatTags = cat
-      ? Array.from(new Set(posts.filter(p => p.category === cat).flatMap(p => p.tags)))
-      : null;
-    const validTags = nextCatTags
-      ? activeTags.filter(t => nextCatTags.includes(t))
-      : activeTags;
-    updateParams({ category: cat, tag: validTags.length > 0 ? validTags.join(',') : null, page: null });
-  }
-
   function handleTagClick(tag: string) {
     const newTags = activeTags.includes(tag)
       ? activeTags.filter(t => t !== tag)
       : [...activeTags, tag];
     updateParams({ tag: newTags.length > 0 ? newTags.join(',') : null, page: null });
-  }
-
-  function handleSearch(query: string) {
-    updateParams({ search: query || null, page: null });
   }
 
   function handlePageChange(page: number) {
@@ -120,74 +96,25 @@ export default function PostListClient({ posts }: Props) {
   );
 
   return (
-    <div style={{ maxWidth: '64rem', margin: '0 auto' }}>
-      {/* Search Bar */}
-      <div style={{ padding: '16px 24px' }}>
-        <SearchBar query={activeSearch} onSearch={handleSearch} />
-      </div>
-
-      {/* Category Tab Bar */}
-      <div style={{ display: 'flex', padding: '0 24px', gap: '4px', marginTop: '8px' }}>
-        <button
-          onClick={() => handleCategoryClick(null)}
-          title="전체"
-          style={{
-            background: 'none',
-            border: 'none',
-            borderBottom: activeCategory === null ? '2px solid var(--color-accent)' : '2px solid transparent',
-            padding: '14px 16px',
-            cursor: 'pointer',
-            color: activeCategory === null ? 'var(--color-text)' : 'var(--color-text-sub)',
-            transition: 'border-color 0.15s ease, color 0.15s ease',
-            marginBottom: '-1px',
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          {CAT_ICONS['전체']}
-        </button>
-        {CATEGORIES.map((cat) => (
-          <button
-            key={cat}
-            onClick={() => handleCategoryClick(cat)}
-            title={cat}
-            style={{
-              background: 'none',
-              border: 'none',
-              borderBottom: activeCategory === cat ? '2px solid var(--color-accent)' : '2px solid transparent',
-              padding: '14px 16px',
-              cursor: 'pointer',
-              color: activeCategory === cat ? 'var(--color-text)' : 'var(--color-text-sub)',
-              transition: 'border-color 0.15s ease, color 0.15s ease',
-              marginBottom: '-1px',
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            {CAT_ICONS[cat]}
-          </button>
-        ))}
-      </div>
-
+    <div>
       {/* Tag Filter */}
       {visibleTags.length > 0 && (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', padding: '18px 24px' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', padding: '16px 24px' }}>
           {visibleTags.map((tag) => (
             <button
               key={tag}
               onClick={() => handleTagClick(tag)}
-              className={`tag-btn${activeTags.includes(tag) ? ' tag-btn--active' : ''}`}
               style={{
-                background: activeTags.includes(tag) ? 'var(--color-accent)' : 'transparent',
-                color: activeTags.includes(tag) ? 'var(--color-accent-text)' : 'var(--color-text-sub)',
-                border: `1px solid ${activeTags.includes(tag) ? 'var(--color-accent)' : 'var(--color-border)'}`,
-                padding: '2px 10px',
-                fontSize: '0.75rem',
-                fontFamily: 'JoseonGulim, sans-serif',
+                background: activeTags.includes(tag) ? '#E8FF00' : 'var(--color-input-bg)',
+                color: activeTags.includes(tag) ? '#000' : 'var(--color-text-sub)',
+                border: '1px solid ' + (activeTags.includes(tag) ? '#E8FF00' : 'var(--color-border)'),
+                borderRadius: '20px',
+                padding: '3px 10px',
+                fontSize: '12px',
+                fontFamily: 'Pretendard, sans-serif',
                 letterSpacing: '-0.01em',
                 cursor: 'pointer',
-                borderRadius: '4px',
-                transition: 'background 0.15s ease, color 0.15s ease, border-color 0.15s ease',
+                transition: 'all 0.12s',
               }}
             >
               {tag}
@@ -203,52 +130,38 @@ export default function PostListClient({ posts }: Props) {
           style={{
             padding: '80px 0',
             textAlign: 'center',
-            color: 'var(--color-text-sub)',
-            fontFamily: 'JoseonGulim, sans-serif',
-            fontSize: '0.9rem',
+            color: 'var(--color-text-hint)',
+            fontFamily: 'Pretendard, sans-serif',
+            fontSize: '13px',
+            letterSpacing: '-0.02em',
           }}
         >
           뭐든 일단 써 볼게요!
         </div>
       ) : activeCategory ? (
-        /* 카테고리 선택 시: 매거진형 리스트 */
+        /* 카테고리 선택 시: 2열 그리드 */
         <>
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '1px',
-              margin: '24px 24px 0',
-              background: 'var(--color-border)',
-              borderRadius: '8px',
-              overflow: 'hidden',
-            }}
-          >
+          <div className="magazine-grid" style={{ margin: '20px 24px 28px', display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
             {[featuredPost!, ...paginatedPosts].map((post) => (
               <MagazinePostCard key={post.slug} post={post} />
             ))}
           </div>
+          <style>{`
+            @media (max-width: 600px) {
+              .magazine-grid { grid-template-columns: 1fr !important; }
+            }
+          `}</style>
         </>
       ) : (
         <>
           {/* 최신 글 피처드 카드 */}
-          <div style={{ margin: '24px 24px 0' }}>
+          <div style={{ margin: '20px 24px 0' }}>
             <FeaturedPostCard post={featuredPost!} />
           </div>
 
           {/* 나머지 글 목록 */}
           {paginatedPosts.length > 0 && (
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '1px',
-                margin: '16px 24px 0',
-                background: 'var(--color-border)',
-                borderRadius: '8px',
-                overflow: 'hidden',
-              }}
-            >
+            <div style={{ margin: '12px 24px 28px', border: '1px solid var(--color-border)', borderRadius: '10px', overflow: 'hidden' }}>
               {paginatedPosts.map((post) => (
                 <PostListItem key={post.slug} post={post} />
               ))}
@@ -257,88 +170,31 @@ export default function PostListClient({ posts }: Props) {
 
           {/* 페이지네이션 */}
           {totalPages > 1 && (
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '4px',
-                margin: '24px 24px 0',
-              }}
-            >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', padding: '20px' }}>
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  padding: '6px 10px',
-                  cursor: currentPage === 1 ? 'default' : 'pointer',
-                  fontFamily: 'JoseonGulim, sans-serif',
-                  fontSize: '0.8rem',
-                  letterSpacing: '-0.02em',
-                  color: currentPage === 1 ? 'var(--color-border)' : 'var(--color-text-sub)',
-                }}
-              >
-                ←
-              </button>
+                style={{ background: 'var(--color-input-bg)', border: '1px solid var(--color-border)', borderRadius: '6px', padding: '5px 12px', cursor: currentPage === 1 ? 'default' : 'pointer', fontFamily: 'Pretendard, sans-serif', fontSize: '13px', color: currentPage === 1 ? 'var(--color-text-hint)' : 'var(--color-text)', opacity: currentPage === 1 ? 0.4 : 1 }}
+              >←</button>
 
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                 <button
                   key={page}
                   onClick={() => handlePageChange(page)}
-                  style={{
-                    background: page === currentPage ? 'var(--color-accent)' : 'none',
-                    border: 'none',
-                    padding: '6px 10px',
-                    cursor: 'pointer',
-                    fontFamily: 'JoseonGulim, sans-serif',
-                    fontSize: '0.8rem',
-                    letterSpacing: '-0.02em',
-                    color: page === currentPage ? 'var(--color-accent-text)' : 'var(--color-text-sub)',
-                    minWidth: '32px',
-                    textAlign: 'center',
-                  }}
-                >
-                  {page}
-                </button>
+                  style={{ background: page === currentPage ? '#E8FF00' : 'var(--color-input-bg)', border: '1px solid ' + (page === currentPage ? '#E8FF00' : 'var(--color-border)'), borderRadius: '6px', padding: '5px 10px', cursor: 'pointer', fontFamily: 'Pretendard, sans-serif', fontSize: '13px', fontWeight: page === currentPage ? 600 : 400, color: page === currentPage ? '#000' : 'var(--color-text)', minWidth: '32px', textAlign: 'center' }}
+                >{page}</button>
               ))}
 
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  padding: '6px 10px',
-                  cursor: currentPage === totalPages ? 'default' : 'pointer',
-                  fontFamily: 'JoseonGulim, sans-serif',
-                  fontSize: '0.8rem',
-                  letterSpacing: '-0.02em',
-                  color: currentPage === totalPages ? 'var(--color-border)' : 'var(--color-text-sub)',
-                }}
-              >
-                →
-              </button>
+                style={{ background: 'var(--color-input-bg)', border: '1px solid var(--color-border)', borderRadius: '6px', padding: '5px 12px', cursor: currentPage === totalPages ? 'default' : 'pointer', fontFamily: 'Pretendard, sans-serif', fontSize: '13px', color: currentPage === totalPages ? 'var(--color-text-hint)' : 'var(--color-text)', opacity: currentPage === totalPages ? 0.4 : 1 }}
+              >→</button>
             </div>
           )}
         </>
       )}
       </div>
-
-      <style>{`
-        .tag-btn:not(.tag-btn--active):hover {
-          background: var(--color-accent);
-          color: var(--color-accent-text);
-          border-color: var(--color-accent);
-        }
-        .magazine-card:hover {
-          border-left-color: #E8FF00;
-        }
-        .magazine-card:hover .magazine-title {
-          color: var(--color-text) !important;
-        }
-      `}</style>
     </div>
   );
 }
@@ -352,18 +208,17 @@ function MagazinePostCard({ post }: { post: PostMeta }) {
       className="magazine-card"
       style={{
         display: 'flex',
-        alignItems: 'center',
-        gap: '16px',
-        padding: '16px',
-        backgroundColor: 'var(--color-surface)',
+        flexDirection: 'column',
         textDecoration: 'none',
-        color: 'inherit',
-        borderLeft: '4px solid transparent',
-        transition: 'border-left-color 0.15s ease',
+        color: 'var(--color-text)',
+        border: '1px solid var(--color-border)',
+        borderRadius: '10px',
+        overflow: 'hidden',
+        transition: 'background 0.12s',
       }}
     >
       {/* 썸네일 */}
-      <div style={{ width: '80px', height: '80px', flexShrink: 0, borderRadius: '6px', overflow: 'hidden', backgroundColor: 'var(--color-border)' }}>
+      <div style={{ width: '100%', aspectRatio: '16/9', overflow: 'hidden', background: 'var(--color-input-bg)' }}>
         {post.thumbnail ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -372,39 +227,30 @@ function MagazinePostCard({ post }: { post: PostMeta }) {
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
         ) : (
-          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-text-sub)', fontSize: '1.5rem' }}>
+          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-text-hint)', fontSize: '1.8rem' }}>
             ♪
           </div>
         )}
       </div>
 
       {/* 텍스트 */}
-      <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: '4px' }}>
-        <span
-          className="magazine-title"
-          style={{
-            fontFamily: 'JoseonBoldMyongjo, serif',
-            fontSize: '1rem',
-            letterSpacing: '-0.03em',
-            color: 'var(--color-text)',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-          }}
-        >
+      <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: '4px', padding: '14px 16px' }}>
+        <span style={{ fontFamily: 'Pretendard, sans-serif', fontSize: '1.35rem', fontWeight: 700, color: 'var(--color-text)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', letterSpacing: '-0.03em' }}>
           {post.title}
         </span>
         {post.subtitle && (
-          <span style={{ fontFamily: 'JoseonGulim, sans-serif', fontSize: '0.8rem', letterSpacing: '-0.02em', color: 'var(--color-text-sub)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          <span style={{ fontFamily: 'Pretendard, sans-serif', fontSize: '1.07rem', color: 'var(--color-text-sub)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', letterSpacing: '-0.02em' }}>
             {post.subtitle}
           </span>
         )}
+        <span style={{ fontFamily: 'Pretendard, sans-serif', fontSize: '0.8rem', color: 'var(--color-text-hint)', letterSpacing: '-0.01em', marginTop: '2px' }}>
+          {post.date}
+        </span>
       </div>
 
-      {/* 날짜 */}
-      <span style={{ fontFamily: 'JoseonGulim, sans-serif', fontSize: '0.75rem', letterSpacing: '-0.02em', color: 'var(--color-text-sub)', flexShrink: 0 }}>
-        {post.date}
-      </span>
+      <style>{`
+        .magazine-card:hover { background: var(--color-hover) !important; }
+      `}</style>
     </Link>
   );
 }
