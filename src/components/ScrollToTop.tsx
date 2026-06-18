@@ -29,8 +29,8 @@ export default function ScrollToTop() {
           position: fixed;
           bottom: 28px;
           right: 28px;
-          width: 36px;
-          height: 36px;
+          width: 48px;
+          height: 48px;
           background: var(--color-surface);
           color: var(--color-text-sub);
           border: 1px solid var(--color-border-strong);
@@ -39,7 +39,7 @@ export default function ScrollToTop() {
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 15px;
+          font-size: 20px;
           opacity: 0;
           transform: translateY(8px);
           pointer-events: none;

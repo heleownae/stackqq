@@ -14,8 +14,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko">
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="anonymous" />
+        <link
+          rel="preload"
+          as="style"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css"
+        />
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css"
+        />
       </head>
       <body>
         <div
@@ -24,7 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             margin: '32px auto',
             background: 'var(--color-surface)',
             borderRadius: '12px',
-            overflow: 'hidden',
+            overflow: 'clip',
             boxShadow: '0 2px 8px rgba(0,0,0,0.10), 0 16px 48px rgba(0,0,0,0.08)',
             border: '0.5px solid var(--color-border-strong)',
           }}
