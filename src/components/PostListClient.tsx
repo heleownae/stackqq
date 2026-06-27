@@ -167,32 +167,32 @@ export default function PostListClient({ posts }: Props) {
               ))}
             </div>
           )}
-
-          {/* 페이지네이션 */}
-          {totalPages > 1 && (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', padding: '20px' }}>
-              <button
-                onClick={() => handlePageChange(currentPage - 1)}
-                disabled={currentPage === 1}
-                style={{ background: 'var(--color-input-bg)', border: '1px solid var(--color-border)', borderRadius: '6px', padding: '5px 12px', cursor: currentPage === 1 ? 'default' : 'pointer', fontFamily: 'Pretendard, sans-serif', fontSize: '13px', color: currentPage === 1 ? 'var(--color-text-hint)' : 'var(--color-text)', opacity: currentPage === 1 ? 0.4 : 1 }}
-              >←</button>
-
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <button
-                  key={page}
-                  onClick={() => handlePageChange(page)}
-                  style={{ background: page === currentPage ? '#E8FF00' : 'var(--color-input-bg)', border: '1px solid ' + (page === currentPage ? '#E8FF00' : 'var(--color-border)'), borderRadius: '6px', padding: '5px 10px', cursor: 'pointer', fontFamily: 'Pretendard, sans-serif', fontSize: '13px', fontWeight: page === currentPage ? 600 : 400, color: page === currentPage ? '#000' : 'var(--color-text)', minWidth: '32px', textAlign: 'center' }}
-                >{page}</button>
-              ))}
-
-              <button
-                onClick={() => handlePageChange(currentPage + 1)}
-                disabled={currentPage === totalPages}
-                style={{ background: 'var(--color-input-bg)', border: '1px solid var(--color-border)', borderRadius: '6px', padding: '5px 12px', cursor: currentPage === totalPages ? 'default' : 'pointer', fontFamily: 'Pretendard, sans-serif', fontSize: '13px', color: currentPage === totalPages ? 'var(--color-text-hint)' : 'var(--color-text)', opacity: currentPage === totalPages ? 0.4 : 1 }}
-              >→</button>
-            </div>
-          )}
         </>
+      )}
+
+      {/* 페이지네이션 (전체/카테고리 탭 공통) */}
+      {totalPages > 1 && (
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', padding: '20px' }}>
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            style={{ background: 'var(--color-input-bg)', border: '1px solid var(--color-border)', borderRadius: '6px', padding: '5px 12px', cursor: currentPage === 1 ? 'default' : 'pointer', fontFamily: 'Pretendard, sans-serif', fontSize: '13px', color: currentPage === 1 ? 'var(--color-text-hint)' : 'var(--color-text)', opacity: currentPage === 1 ? 0.4 : 1 }}
+          >←</button>
+
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <button
+              key={page}
+              onClick={() => handlePageChange(page)}
+              style={{ background: page === currentPage ? '#E8FF00' : 'var(--color-input-bg)', border: '1px solid ' + (page === currentPage ? '#E8FF00' : 'var(--color-border)'), borderRadius: '6px', padding: '5px 10px', cursor: 'pointer', fontFamily: 'Pretendard, sans-serif', fontSize: '13px', fontWeight: page === currentPage ? 600 : 400, color: page === currentPage ? '#000' : 'var(--color-text)', minWidth: '32px', textAlign: 'center' }}
+            >{page}</button>
+          ))}
+
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            style={{ background: 'var(--color-input-bg)', border: '1px solid var(--color-border)', borderRadius: '6px', padding: '5px 12px', cursor: currentPage === totalPages ? 'default' : 'pointer', fontFamily: 'Pretendard, sans-serif', fontSize: '13px', color: currentPage === totalPages ? 'var(--color-text-hint)' : 'var(--color-text)', opacity: currentPage === totalPages ? 0.4 : 1 }}
+          >→</button>
+        </div>
       )}
       </div>
     </div>
